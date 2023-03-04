@@ -57,7 +57,7 @@ async def main():
 
 async def shutter_callback(device: Curtain, state_type: CST) -> None:
     print(f'Curtain callback activated for state type: {state_type}, '
-          f'from switch: {hex(device.get_device_id())}, new state: {device.get_position()}')
+          f'from shutter: {hex(device.get_device_id())}, new state: {device.get_position()}')
 
 
 async def switch_callback(device: Switch, state_type: SST) -> None:
@@ -67,7 +67,7 @@ async def switch_callback(device: Switch, state_type: SST) -> None:
 
 async def dimmer_callback(device: Dimmer, state_type: DST) -> None:
     print(f'Dimmer callback activated for state type: {state_type}, '
-          f'from switch: {hex(device.get_device_id())}, new state: {device.get_luminous()}')
+          f'from dimmer: {hex(device.get_device_id())}, new state: {device.get_luminous()}')
 
 
 if __name__ == '__main__':
