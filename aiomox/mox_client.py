@@ -19,7 +19,7 @@ class MoxClient:
     _transport: Transport = None
     _devices: Dict[bytes, Coroutine[Any, Any, None]] = {}
 
-    def __int__(self,
+    def __init__(self,
                 gateway_host: str = DEFAULT_GW_HOST,
                 gateway_port: int = DEFAULT_GW_PORT,
                 client_host: str = DEFAULT_CLIENT_HOST,
@@ -36,8 +36,8 @@ class MoxClient:
         loop = asyncio.get_running_loop()
         self._transport, protocol = await loop.create_datagram_endpoint(
             lambda: LTCANClientProtocol(on_con_lost, self._on_message),
-            remote_addr=(DEFAULT_GW_HOST, DEFAULT_GW_PORT),
-            local_addr=(DEFAULT_CLIENT_HOST, DEFAULT_CLIENT_PORT))
+            remote_addr=(self._gateway_host, self._gateway_port),
+            local_addr=(self._client_host, self._client_port))
 
     async def close(self) -> None:
         """Close the connection"""
