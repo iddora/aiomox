@@ -5,7 +5,7 @@ from setuptools import find_packages, setup
 
 PROJECT_DIR = Path(__file__).parent.resolve()
 README_FILE = PROJECT_DIR / "README.md"
-VERSION = "1.0.3"
+VERSION = "1.0.4"
 
 
 setup(
@@ -19,7 +19,7 @@ setup(
     long_description=README_FILE.read_text(encoding="utf-8"),
     long_description_content_type="text/markdown",
     packages=find_packages(),
-    python_requires=">=3.11",
+    python_requires=">=3.9",
     package_data={"aiomox": ["py.typed"], "aiomox.device": ["py.typed"]},
     zip_safe=True,
     platforms="any",

@@ -1,6 +1,6 @@
 import asyncio
 import logging
-from enum import StrEnum
+from enum import Enum
 from typing import Coroutine, Any, Dict
 
 from aiomox.device.device import Device, _get_msg_type
@@ -11,13 +11,13 @@ _LOGGER = logging.getLogger(__name__)
 POS_STATE_MESSAGE: bytes = b'\x01\x00\x00\x03\x04'
 
 
-class StateType(StrEnum):
-    POSITION = "POSITION"
+class StateType(Enum):
+    POSITION = 1
 
 
 class Curtain(Device):
     _position: int = None
-    _state_change_callbacks: Dict[StrEnum, Coroutine[Any, Any, None]] = {}
+    _state_change_callbacks: Dict[Enum, Coroutine[Any, Any, None]] = {}
 
     def __init__(self, device_id: int, mox_client: MoxClient, on_state_change: Coroutine[Any, Any, None] = None):
         super().__init__(device_id, mox_client)

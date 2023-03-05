@@ -1,6 +1,6 @@
 import asyncio
 import logging
-from enum import StrEnum
+from enum import Enum
 from typing import Coroutine, Any, Dict
 
 from aiomox.device.device import _get_msg_type
@@ -12,8 +12,8 @@ _LOGGER = logging.getLogger(__name__)
 LUM_STATE_MESSAGE: bytes = b'\x03\x00\x00\x03\x04'
 
 
-class StateType(StrEnum):
-    LUMINOUS = "LUMINOUS"
+class StateType(Enum):
+    LUMINOUS = 1
 
 
 def _validate_percentage(percentage):
@@ -24,7 +24,7 @@ def _validate_percentage(percentage):
 
 class Dimmer(Switch):
     _luminous: int = None
-    _state_change_callbacks: Dict[StrEnum, Coroutine[Any, Any, None]] = {}
+    _state_change_callbacks: Dict[Enum, Coroutine[Any, Any, None]] = {}
 
     def __init__(self, device_id: int, mox_client: MoxClient, on_state_change: Coroutine[Any, Any, None] = None):
         super().__init__(device_id, mox_client)

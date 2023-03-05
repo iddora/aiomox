@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
-from enum import StrEnum
-from typing import Coroutine, Any
+from enum import Enum
+from typing import Coroutine, Any, Dict
 
 from aiomox.mox_client import MoxClient
 
@@ -29,7 +29,7 @@ class Device(ABC):
         self._mox_client = mox_client
         self._mox_client.register_callback(self._device_id, self._update_callback)
 
-    def set_state_change_callback(self, state_type: StrEnum, callback: Coroutine[Any, Any, None]) -> None:
+    def set_state_change_callback(self, state_type: Enum, callback: Coroutine[Any, Any, None]) -> None:
         """Register a Coroutine to be executed on and change of the provided state_type
 
         Keyword Arguments:
@@ -42,7 +42,7 @@ class Device(ABC):
         else:
             raise ValueError(f'Unsupported state type: {state_type}')
 
-    async def invoke_state_change_callback(self, state_type: StrEnum) -> None:
+    async def invoke_state_change_callback(self, state_type: Enum) -> None:
         callback = self._state_change_callbacks.get(state_type)
         if callback is not None:
             await callback(self, state_type)
