@@ -62,3 +62,8 @@ class Device(ABC):
     def get_device_id(self) -> int:
         """Get this devices ID"""
         return self._device_id_int
+
+    @abstractmethod
+    async def request_state_update(self) -> None:
+        """Request the MOX Gateway to send a message containing the state of this device"""
+        pass

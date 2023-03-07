@@ -29,7 +29,7 @@ class Curtain(Device):
             self.set_state_change_callback(StateType.POSITION, on_state_change)
 
         # invoke a callback to update the state of this device
-        asyncio.create_task(mox_client.send_message(self._get_position_msg))
+        asyncio.create_task(self.request_state_update())
 
     async def _update_callback(self, message: bytes) -> None:
         await super()._update_callback(message)
@@ -61,3 +61,6 @@ class Curtain(Device):
         await self._mox_client.send_message(self._set_position_msg +
                                             position.to_bytes(length=1, byteorder="little", signed=False) +
                                             b'\x00')
+
+    async def request_state_update(self) -> None:
+        await self._mox_client.send_message(self._get_position_msg)

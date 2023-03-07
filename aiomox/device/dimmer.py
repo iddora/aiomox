@@ -40,7 +40,7 @@ class Dimmer(Switch):
             self.set_state_change_callback(StateType.LUMINOUS, on_state_change)
 
         # invoke a callback to update the state of this device
-        asyncio.create_task(mox_client.send_message(self._get_luminous_msg))
+        asyncio.create_task(self.request_state_update())
 
     def get_luminous(self):
         """Get the current level of luminous"""
@@ -90,3 +90,6 @@ class Dimmer(Switch):
 
     def _is_valid_state_type(self, state_type) -> bool:
         return state_type in StateType or super()._is_valid_state_type(state_type)
+
+    async def request_state_update(self) -> None:
+        await self._mox_client.send_message(self._get_luminous_msg)

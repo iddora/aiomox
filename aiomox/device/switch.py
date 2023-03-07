@@ -30,7 +30,7 @@ class Switch(Device):
             self.set_state_change_callback(StateType.ON_OFF, on_state_change)
 
         # invoke a callback to update the state of this device
-        asyncio.create_task(mox_client.send_message(self._get_state_msg))
+        asyncio.create_task(self.request_state_update())
 
     async def _update_callback(self, message: bytes) -> None:
         await super()._update_callback(message)
@@ -60,3 +60,6 @@ class Switch(Device):
     async def turn_on(self) -> None:
         """Turn on the switch"""
         await self._mox_client.send_message(self._turn_on_msg)
+
+    async def request_state_update(self) -> None:
+        await self._mox_client.send_message(self._get_state_msg)
