@@ -16,6 +16,7 @@ class Device(ABC):
     _device_id: bytes = None
     _device_id_int: int = None
     _mox_client: MoxClient = None
+    _state_change_callbacks: Dict[Enum, Coroutine[Any, Any, None]] = None
 
     def __init__(self, device_id: int, mox_client: MoxClient):
         """Create new device
@@ -27,6 +28,7 @@ class Device(ABC):
         self._device_id = device_id.to_bytes(length=4, byteorder='big', signed=False)
         self._device_id_int = device_id
         self._mox_client = mox_client
+        self._state_change_callbacks = {}
         self._mox_client.register_callback(self._device_id, self._update_callback)
 
     def set_state_change_callback(self, state_type: Enum, callback: Coroutine[Any, Any, None]) -> None:

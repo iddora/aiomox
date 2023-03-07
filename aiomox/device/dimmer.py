@@ -24,7 +24,6 @@ def _validate_percentage(percentage):
 
 class Dimmer(Switch):
     _luminous: int = None
-    _state_change_callbacks: Dict[Enum, Coroutine[Any, Any, None]] = {}
 
     def __init__(self, device_id: int, mox_client: MoxClient, on_state_change: Coroutine[Any, Any, None] = None):
         super().__init__(device_id, mox_client)
