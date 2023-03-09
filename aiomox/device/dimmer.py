@@ -1,9 +1,9 @@
 import asyncio
 import logging
 from enum import Enum
-from typing import Coroutine, Any, Dict
+from typing import Coroutine, Any, Dict, Callable
 
-from aiomox.device.device import _get_msg_type
+from aiomox.device.device import _get_msg_type, Device
 from aiomox.device.switch import Switch
 from aiomox.mox_client import MoxClient
 
@@ -25,7 +25,10 @@ def _validate_percentage(percentage):
 class Dimmer(Switch):
     _luminous: int = None
 
-    def __init__(self, device_id: int, mox_client: MoxClient, on_state_change: Coroutine[Any, Any, None] = None):
+    def __init__(self,
+                 device_id: int,
+                 mox_client: MoxClient,
+                 on_state_change: Callable[[Device, StateType], Coroutine[Any, Any, None]] = None):
         super().__init__(device_id, mox_client)
 
         # prepare protocol messages

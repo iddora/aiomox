@@ -1,7 +1,7 @@
 import asyncio
 import logging
 from enum import Enum
-from typing import Coroutine, Any, Dict
+from typing import Coroutine, Any, Dict, Callable
 
 from aiomox.device.device import Device, _get_msg_type
 from aiomox.mox_client import MoxClient
@@ -18,7 +18,10 @@ class StateType(Enum):
 class Curtain(Device):
     _position: int = None
 
-    def __init__(self, device_id: int, mox_client: MoxClient, on_state_change: Coroutine[Any, Any, None] = None):
+    def __init__(self,
+                 device_id: int,
+                 mox_client: MoxClient,
+                 on_state_change: Callable[[Device, StateType], Coroutine[Any, Any, None]]):
         super().__init__(device_id, mox_client)
 
         # prepare protocol messages

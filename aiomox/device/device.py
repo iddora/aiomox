@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from enum import Enum
-from typing import Coroutine, Any, Dict
+from typing import Coroutine, Any, Dict, Callable
 
 from aiomox.mox_client import MoxClient
 
@@ -16,7 +16,7 @@ class Device(ABC):
     _device_id: bytes = None
     _device_id_int: int = None
     _mox_client: MoxClient = None
-    _state_change_callbacks: Dict[Enum, Coroutine[Any, Any, None]] = None
+    _state_change_callbacks: Dict[Enum, Callable[[Any, Enum], Coroutine[Any, Any, None]]] = None
 
     def __init__(self, device_id: int, mox_client: MoxClient):
         """Create new device
@@ -31,7 +31,7 @@ class Device(ABC):
         self._state_change_callbacks = {}
         self._mox_client.register_callback(self._device_id, self._update_callback)
 
-    def set_state_change_callback(self, state_type: Enum, callback: Coroutine[Any, Any, None]) -> None:
+    def set_state_change_callback(self, state_type: Enum, callback: Callable[[Any, Enum], Coroutine[Any, Any, None]]) -> None:
         """Register a Coroutine to be executed on and change of the provided state_type
 
         Keyword Arguments:
