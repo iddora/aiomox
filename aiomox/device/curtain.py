@@ -21,7 +21,7 @@ class Curtain(Device):
     def __init__(self,
                  device_id: int,
                  mox_client: MoxClient,
-                 on_state_change: Callable[[Device, StateType], Coroutine[Any, Any, None]]):
+                 on_state_change: Callable[[Device, StateType], Coroutine[Any, Any, None]] = None):
         super().__init__(device_id, mox_client)
 
         # prepare protocol messages
